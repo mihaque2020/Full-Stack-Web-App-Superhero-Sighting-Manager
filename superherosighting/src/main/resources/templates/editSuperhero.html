@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Edit Superhero</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row m-4">
+                <div class="col text-center border border-dark">
+                    <h1><a href="/" class="text-dark">Superhero Sighting Manager</a></h1>
+                </div>
+            </div>
+            <div class="row m-4 border border-dark">
+                <div class="col text-center m-3">
+                    <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="superheros" class="btn btn-outline-primary btn-lg">Superheros</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="superpowers" class="btn btn-outline-primary btn-lg">Superpowers</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="locations" class="btn btn-outline-primary btn-lg">Locations</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
+                </div>  
+            </div>
+            <div class="row m-4 border border-dark">
+                <div class="col-3 text-center m-3">
+                    <span class="h3">Edit Superhero</span>
+                </div>
+                <div class="col-7 text-center m-3">
+                    <form action="editSuperhero" method="POST">
+                        <div class="form-group row">
+                            <label for="name" class="col-3 col-form-label">Name</label>
+                            <div class="col-9">
+                                <input type="text" name="name" id="name" class="form-control"
+                                       th:value="${superhero.name}"/>
+                                <div th:if="${#fields.hasErrors('superhero.name')}">
+                                    <p th:each="error : ${#fields.errors('superhero.name')}" 
+                                       class="alert alert-danger" th:text="${error}">
+                                        Bad name </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-3 col-form-label">
+                                Description</label>
+                            <div class="col-9">
+                                <input type="text" name="description" 
+                                       id="description" class="form-control"
+                                       th:value="${superhero.description}"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="superpower" class="col-3 col-form-label">Superpower</label>
+                            <div class="col-9">
+                                <select id="superpower" name="superpowerId" class="form-control" >
+                                    <option th:each="superpower : ${superpowers}" 
+                                            th:value="${superpower.id}" 
+                                            th:text="${superpower.power}"
+                                            th:selected="${superhero.superpower.id == superpower.id}">
+                                        Superpower </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="organizations" class="col-3 col-form-label">Organizations</label>
+                            <div class="col-9">
+                                <select multiple id="organizations" name="organizationId" 
+                                        class="form-control">
+                                    <option th:each="organization : ${organizations}" 
+                                            th:value="${organization.id}" 
+                                            th:text="${organization.name}"
+                                            th:selected="${superhero.organizations.contains(organization)}">
+                                        Organization</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" name="id" th:value="${superhero.id}"/>
+                        <button type="submit" class="btn btn-primary">Edit Superhero</button>
+                    </form>
+                </div>
+            </div>
+        </div>  
+    </body>
+</html>
